@@ -1,10 +1,13 @@
-import "./App.css";
+import { Center } from "@chakra-ui/layout";
+import Layout from "./components/Layout";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <div className="App">
-      <img src="/Prollo.png" alt="Logo" />
-    </div>
+    // <Layout>
+    //   <Center>Welcome to Prollo!</Center>
+    // </Layout>
+    <Login />
   );
 }
 
