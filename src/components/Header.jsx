@@ -65,7 +65,7 @@ export default function Header() {
               pointerEvents="none"
               children={<SearchIcon color="gray.400" />}
             />
-            <Input width="md" bg="gray.200" type="text" placeholder="Search" />
+            <Input width="md" bg="gray.50" type="text" placeholder="Search" />
           </InputGroup>
           <Menu>
             <MenuButton mx="2" as={Button} colorScheme="">

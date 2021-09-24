@@ -1,13 +1,13 @@
 import { Center } from "@chakra-ui/layout";
 import Layout from "./components/Layout";
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
 
 function App() {
   return (
-    // <Layout>
-    //   <Center>Welcome to Prollo!</Center>
-    // </Layout>
-    <Login />
+    <Layout>
+      <Center>Welcome to Prollo!</Center>
+    </Layout>
+    // <Login />
   );
 }
 
