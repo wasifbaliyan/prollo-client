@@ -26,7 +26,10 @@ export default function LoginForm({ setRegistered }) {
     e.preventDefault();
     dispatch(loginUser(loginData));
   };
-
+  const loginAsGuest = () => {
+    setLoginData({ email: "tomato@mail.com", password: "tomato" });
+    dispatch(loginUser({ email: "tomato@mail.com", password: "tomato" }));
+  };
   useEffect(() => {
     if (isLoggedIn) {
       history.push("/");
@@ -89,7 +92,16 @@ export default function LoginForm({ setRegistered }) {
           {status === "loading" ? "Logging in..." : "Login"}
         </Button>
       </form>
-
+      <Button
+        onClick={loginAsGuest}
+        as="button"
+        variant="outline"
+        colorScheme="green"
+        width="full"
+        my="3"
+      >
+        {status === "loading" ? "Logging in..." : "Login as guest"}
+      </Button>
       <Center my="3">
         <Text fontWeight="thin" mr="1">
           Don't have an account?{" "}
