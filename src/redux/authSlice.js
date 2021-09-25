@@ -46,6 +46,8 @@ export const authSlice = createSlice({
         "login",
         JSON.stringify({ token, email, name, isLoggedIn: true })
       );
+      state.user.name = name;
+      state.user.email = email;
       state.status = "success";
       state.isLoggedIn = true;
     },
@@ -64,7 +66,8 @@ export const authSlice = createSlice({
         "login",
         JSON.stringify({ token, name, email, isLoggedIn: true })
       );
-
+      state.user.name = name;
+      state.user.email = email;
       state.isLoggedIn = true;
     },
     [registerUser.rejected]: (state, action) => {
@@ -75,4 +78,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setAuth,logout } = authSlice.actions;
+export const { setAuth, logout } = authSlice.actions;

@@ -16,6 +16,7 @@ import {
   Button,
   Avatar,
   useDisclosure,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
@@ -25,9 +26,14 @@ import CreateBoardModal from "./CreateBoardModal";
 
 export default function Header() {
   const dispatch = useDispatch();
-  const { boardDetails } = useSelector((state) => state.board);
-
+  const { boardDetails, boards } = useSelector((state) => state.board);
+  const { email, name } = JSON.parse(localStorage.getItem("login"));
+  const variant = useBreakpointValue({ base: "base", sm: "sm", md: "md" });
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  function getStarredBoards() {
+    return boards.filter((board) => board.isStarred);
+  }
 
   return (
     <>
@@ -37,7 +43,7 @@ export default function Header() {
             <Link to="/">
               <Image mr="2" src="/Prollo.png" alt="Prollo Logo" h="14" py="4" />
             </Link>
-            <Link to="/">
+            <Link hidden={variant === "sm" || variant === "base"} to="/">
               <Button mx="2" colorScheme="blue">
                 Boards
               </Button>
@@ -45,6 +51,7 @@ export default function Header() {
 
             <Menu>
               <MenuButton
+                hidden={variant === "base"}
                 mx="2"
                 as={Button}
                 colorScheme="blue"
@@ -53,9 +60,11 @@ export default function Header() {
                 Starred
               </MenuButton>
               <MenuList>
-                <MenuItem>Download</MenuItem>
-                <MenuItem>Create a Copy</MenuItem>
-                <MenuItem>Mark as Draft</MenuItem>
+                {getStarredBoards().map((board) => (
+                  <Link key={board._id} to={`/boards/${board._id}`}>
+                    <MenuItem>{board.title}</MenuItem>
+                  </Link>
+                ))}
               </MenuList>
             </Menu>
             <Button onClick={onOpen} mx="2" colorScheme="blue">
@@ -63,21 +72,21 @@ export default function Header() {
             </Button>
           </Flex>
           <Flex alignItems="center">
-            <InputGroup>
+            <InputGroup hidden={variant === "sm" || variant === "base"}>
               <InputLeftElement
                 pointerEvents="none"
                 children={<SearchIcon color="gray.400" />}
               />
-              <Input width="md" bg="gray.50" type="text" placeholder="Search" />
+              <Input w="sm" bg="gray.50" type="text" placeholder="Search" />
             </InputGroup>
             <Menu>
               <MenuButton mx="2" as={Button} colorScheme="">
-                <Avatar bg="blue.300" size="sm" name="Wasif Baliyan" />
+                <Avatar bg="blue.300" size="sm" name={name} />
               </MenuButton>
               <MenuList>
                 <MenuGroup title="Profile">
-                  <MenuItem>My Account</MenuItem>
-                  <MenuItem>Payments </MenuItem>
+                  <MenuItem>{name}</MenuItem>
+                  <MenuItem>{email}</MenuItem>
                 </MenuGroup>
                 <MenuDivider />
                 <MenuGroup>

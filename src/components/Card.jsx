@@ -15,7 +15,7 @@ export default function Card({ card }) {
           {card.title}
         </Text>
       </Box>
-      <CardModal isOpen={isOpen} onClose={onClose} />
+      <CardModal isOpen={isOpen} onClose={onClose} card={card} />
     </>
   );
 }

@@ -1,10 +1,22 @@
-import { Box, Heading } from "@chakra-ui/layout";
+import { Box, Heading, Icon } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/button";
-import { StarIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import React from "react";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import { updateBoard } from "../api";
+import { useDispatch } from "react-redux";
+
+import { getBoards } from "../redux/boardSlice";
 
 export default function Board({ board }) {
+  const dispatch = useDispatch();
+  const handleUpdate = async (e, star) => {
+    e.stopPropagation();
+    const response = await updateBoard({ id: board._id, isStarred: star });
+    if (response) {
+      dispatch(getBoards());
+    }
+  };
   return (
     <Link to={`/boards/${board._id}`}>
       <Box
@@ -19,15 +31,31 @@ export default function Board({ board }) {
         <Heading textColor="white" size="md">
           {board.title}
         </Heading>
-        <IconButton
-          m={1}
-          position="absolute"
-          bottom="0"
-          right="0"
-          bg="transparent"
-          borderRadius="sm"
-          icon={<StarIcon color="orange.500" />}
-        />
+        {board.isStarred ? (
+          <IconButton
+            onClick={(e) => handleUpdate(e, false)}
+            m={1}
+            position="absolute"
+            bottom="0"
+            right="0"
+            bg="transparent"
+            borderRadius="sm"
+          >
+            <Icon as={FaStar} />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={(e) => handleUpdate(e, true)}
+            m={1}
+            position="absolute"
+            bottom="0"
+            right="0"
+            bg="transparent"
+            borderRadius="sm"
+          >
+            <Icon as={FaRegStar} />
+          </IconButton>
+        )}
       </Box>
     </Link>
   );

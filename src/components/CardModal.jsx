@@ -15,10 +15,24 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
 import { CloseIcon } from "@chakra-ui/icons";
-export default function CardModal({ isOpen, onClose }) {
+import { updateCard } from "../api";
+import { getBoards } from "../redux/boardSlice";
+
+export default function CardModal({ isOpen, onClose, card }) {
   const [showEditTitle, setShowEditTitle] = useState(false);
   const [showEditDesc, setShowEditDesc] = useState(false);
+  const [title, setTitle] = useState(card.title);
+  const [description, setDescription] = useState(card.description || "");
+  const dispatch = useDispatch();
+  const handleUpdate = async () => {
+    const response = await updateCard({ id: card._id, title, description });
+    if (response) {
+      dispatch(getBoards());
+      onClose();
+    }
+  };
 
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
@@ -36,7 +50,7 @@ export default function CardModal({ isOpen, onClose }) {
               fontWeight="semibold"
               onClick={() => setShowEditTitle(true)}
             >
-              Card title goes here
+              {card.title}
             </Heading>
           )}
           {showEditTitle && (
@@ -46,8 +60,15 @@ export default function CardModal({ isOpen, onClose }) {
                 w="max-content"
                 mr="6"
                 bg="white"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
-              <Button borderRadius="sm" colorScheme="blue" mr="2">
+              <Button
+                onClick={() => handleUpdate()}
+                borderRadius="sm"
+                colorScheme="blue"
+                mr="2"
+              >
                 Save
               </Button>
               <IconButton
@@ -68,13 +89,24 @@ export default function CardModal({ isOpen, onClose }) {
               _hover={{ cursor: "pointer", backgroundColor: "gray.100" }}
               onClick={() => setShowEditDesc(true)}
             >
-              Card description goes here
+              {card.description || "Card description goes here"}
             </Text>
           )}
           {showEditDesc && (
             <Box>
-              <Textarea placeholder="Card description" bg="white" mb="4" />
-              <Button borderRadius="sm" colorScheme="blue" mr="2">
+              <Textarea
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+                placeholder="Card description"
+                bg="white"
+                mb="4"
+              />
+              <Button
+                onClick={() => handleUpdate()}
+                borderRadius="sm"
+                colorScheme="blue"
+                mr="2"
+              >
                 Save
               </Button>
               <IconButton

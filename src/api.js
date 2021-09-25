@@ -23,3 +23,19 @@ export const createCard = async (data) => {
   }
   return response.data;
 };
+
+export const updateBoard = async (data) => {
+  const response = await axios.put(`/api/boards/${data.id}`, data);
+  if (!response.statusText === "OK") {
+    throw new Error("Something went wrong!");
+  }
+  return response.data;
+};
+
+export const updateCard = async (data) => {
+  const response = await axios.put(`/api/cards/${data.id}`, data);
+  if (!response.statusText === "OK") {
+    throw new Error("Something went wrong!");
+  }
+  return response.data;
+};
