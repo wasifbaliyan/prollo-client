@@ -1,10 +1,20 @@
-import { IconButton, Button, Box, Heading, Textarea } from "@chakra-ui/react";
-import { AddIcon, CloseIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import { Box, Heading } from "@chakra-ui/react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import Cards from "./Cards";
+import CreateCard from "./CreateCard";
 
 export default function List({ list }) {
-  const [showAddButton, setShowAddButton] = useState(true);
+  const { id } = useParams();
+  const [cards, setCards] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`/api/cards?boardId=${id}&listId=${list._id}`)
+      .then((response) => {
+        setCards(response.data.response.cards);
+      }, []);
+  }, [id, list]);
   return (
     <Box
       bg="gray.100"
@@ -18,30 +28,8 @@ export default function List({ list }) {
       <Heading textColor="gray.600" size="sm">
         {list.title}
       </Heading>
-      <Cards />
-      {showAddButton && (
-        <Button
-          onClick={() => setShowAddButton(false)}
-          w="full"
-          fontSize="sm"
-          leftIcon={<AddIcon />}
-        >
-          Add a card
-        </Button>
-      )}
-      {!showAddButton && (
-        <Box>
-          <Textarea placeholder="Enter title for this card" bg="white" mb="2" />
-          <Button colorScheme="blue" borderRadius="sm" mr="2">
-            Add
-          </Button>
-          <IconButton
-            onClick={() => setShowAddButton(true)}
-            borderRadius="sm"
-            icon={<CloseIcon fontSize="xs" />}
-          />
-        </Box>
-      )}
+      <Cards cards={cards} />
+      <CreateCard list={list} />
     </Box>
   );
 }

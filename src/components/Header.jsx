@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import {
   Flex,
   Box,
@@ -34,22 +34,15 @@ export default function Header() {
       <Box bg={boardDetails.backgroundColor || "blue.500"} px="10">
         <Flex justify="space-between">
           <Flex alignItems="center" justify="flex-start">
-            <Image mr="2" src="/Prollo.png" alt="Prollo Logo" h="14" py="4" />
-            <Menu>
-              <MenuButton
-                mx="2"
-                as={Button}
-                colorScheme="blue"
-                rightIcon={<ChevronDownIcon />}
-              >
+            <Link to="/">
+              <Image mr="2" src="/Prollo.png" alt="Prollo Logo" h="14" py="4" />
+            </Link>
+            <Link to="/">
+              <Button mx="2" colorScheme="blue">
                 Boards
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Download</MenuItem>
-                <MenuItem>Create a Copy</MenuItem>
-                <MenuItem>Mark as Draft</MenuItem>
-              </MenuList>
-            </Menu>
+              </Button>
+            </Link>
+
             <Menu>
               <MenuButton
                 mx="2"

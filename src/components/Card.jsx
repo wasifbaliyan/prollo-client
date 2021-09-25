@@ -2,7 +2,7 @@ import { Box, Text, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import CardModal from "./CardModal";
 
-export default function Card() {
+export default function Card({ card }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -12,7 +12,7 @@ export default function Card() {
           _hover={{ backgroundColor: "gray.50", cursor: "pointer" }}
           p="2"
         >
-          My Card 1
+          {card.title}
         </Text>
       </Box>
       <CardModal isOpen={isOpen} onClose={onClose} />
