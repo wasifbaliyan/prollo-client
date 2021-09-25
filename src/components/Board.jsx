@@ -8,20 +8,18 @@ export default function Board({ board }) {
   return (
     <Link to={`/boards/${board._id}`}>
       <Box
-        bg="green.500"
+        bg={board.backgroundColor}
         w="64"
         boxShadow="md"
         h="40"
         borderRadius="sm"
         p="4"
         position="relative"
-        _hover={{ bg: "green.400" }}
       >
         <Heading textColor="white" size="md">
           {board.title}
         </Heading>
         <IconButton
-          colorScheme="green"
           m={1}
           position="absolute"
           bottom="0"

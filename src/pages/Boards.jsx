@@ -2,13 +2,17 @@ import { Heading, Box, Flex } from "@chakra-ui/layout";
 import React, { useEffect } from "react";
 import Board from "../components/Board";
 import { useDispatch, useSelector } from "react-redux";
-import { getBoards } from "../redux/boardSlice";
+import { getBoards, resetBoardDetails } from "../redux/boardSlice";
 
 export default function Boards() {
   const { status, boards } = useSelector((state) => state.board);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBoards());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(resetBoardDetails());
   }, [dispatch]);
   return (
     <Box my="10">

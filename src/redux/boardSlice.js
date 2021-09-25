@@ -4,17 +4,29 @@ import axios from "axios";
 const initialState = {
   status: "idle",
   boards: [],
+  boardDetails: {},
 };
 
 export const getBoards = createAsyncThunk("board/getBoards", async () => {
   const { data } = await axios.get("/api/boards");
   return data;
 });
+export const getBoardDetails = createAsyncThunk(
+  "board/getBoardDetails",
+  async (id) => {
+    const { data } = await axios.get(`/api/boards/${id}`);
+    return data;
+  }
+);
 
 export const boardSlice = createSlice({
   name: "board",
   initialState,
-  reducers: {},
+  reducers: {
+    resetBoardDetails: (state, action) => {
+      state.boardDetails = {};
+    },
+  },
   extraReducers: {
     [getBoards.pending]: (state, action) => {
       state.status = "loading";
@@ -26,8 +38,19 @@ export const boardSlice = createSlice({
     [getBoards.rejected]: (state, action) => {
       state.status = "failed";
     },
+
+    [getBoardDetails.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [getBoardDetails.fulfilled]: (state, action) => {
+      state.boardDetails = action.payload.response.board;
+      state.status = "success";
+    },
+    [getBoardDetails.rejected]: (state, action) => {
+      state.status = "failed";
+    },
   },
 });
 
 export default boardSlice.reducer;
-// export const {  } = boardSlice.actions;
+export const { resetBoardDetails } = boardSlice.actions;

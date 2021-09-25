@@ -2,11 +2,21 @@ import { Button, IconButton } from "@chakra-ui/button";
 import { CloseIcon, StarIcon } from "@chakra-ui/icons";
 import { Input } from "@chakra-ui/input";
 import { Box, Flex } from "@chakra-ui/layout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Lists from "../components/Lists";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getBoardDetails } from "../redux/boardSlice";
 
 export default function BoardDetails() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
   const [showBoardNameEdit, setShowBoardNameEdit] = useState(false);
+
+  useEffect(() => {
+    dispatch(getBoardDetails(id));
+  }, [dispatch, id]);
+
   return (
     <Box>
       <Flex my="3">
