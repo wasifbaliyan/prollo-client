@@ -3,7 +3,7 @@ import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
 import Cards from "./Cards";
 
-export default function List() {
+export default function List({ list }) {
   const [showAddButton, setShowAddButton] = useState(true);
   return (
     <Box
@@ -16,7 +16,7 @@ export default function List() {
       alignSelf="flex-start"
     >
       <Heading textColor="gray.600" size="sm">
-        Targets
+        {list.title}
       </Heading>
       <Cards />
       {showAddButton && (

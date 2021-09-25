@@ -7,14 +7,15 @@ import Lists from "../components/Lists";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getBoardDetails } from "../redux/boardSlice";
+import { getLists } from "../redux/listSlice";
 
 export default function BoardDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [showBoardNameEdit, setShowBoardNameEdit] = useState(false);
-
   useEffect(() => {
     dispatch(getBoardDetails(id));
+    dispatch(getLists(id));
   }, [dispatch, id]);
 
   return (
