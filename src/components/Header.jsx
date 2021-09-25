@@ -18,8 +18,11 @@ import {
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 
 export default function Header() {
+  const dispatch = useDispatch();
   return (
     <Box bg="blue.500" px="10">
       <Flex justify="space-between">
@@ -77,9 +80,8 @@ export default function Header() {
                 <MenuItem>Payments </MenuItem>
               </MenuGroup>
               <MenuDivider />
-              <MenuGroup title="Help">
-                <MenuItem>Docs</MenuItem>
-                <MenuItem>FAQ</MenuItem>
+              <MenuGroup>
+                <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
               </MenuGroup>
             </MenuList>
           </Menu>

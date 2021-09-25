@@ -26,7 +26,16 @@ export const registerUser = createAsyncThunk(
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setAuth: (state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+    },
+    logout: (state, action) => {
+      localStorage.clear();
+      state.isLoggedIn = false;
+      axios.defaults.headers.common["authorization"] = null;
+    },
+  },
   extraReducers: {
     [loginUser.pending]: (state, action) => {
       state.status = "loading";
@@ -66,4 +75,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-// export const {} = authSlice.actions;
+export const { setAuth,logout } = authSlice.actions;
