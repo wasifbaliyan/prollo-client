@@ -90,7 +90,7 @@ export default function BoardDetails() {
               </IconButton>
             )}
           </Flex>
-          <Box maxWidth="full" overflowX="scroll" minH="60vh">
+          <Box maxWidth="full" overflowX="scroll" h="80vh">
             <Lists />
           </Box>
         </Box>
