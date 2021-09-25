@@ -6,7 +6,7 @@ export default function Layout({ children }) {
   return (
     <Box>
       <Header />
-      {children}
+      <Box mx="4">{children}</Box>
     </Box>
   );
 }

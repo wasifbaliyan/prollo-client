@@ -1,13 +1,29 @@
-import { Center } from "@chakra-ui/layout";
+// import { Center } from "@chakra-ui/layout";
+import { Switch, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-// import Login from "./pages/Login";
+import BoardDetails from "./pages/BoardDetails";
+import Boards from "./pages/Boards";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <Layout>
-      <Center>Welcome to Prollo!</Center>
-    </Layout>
-    // <Login />
+    <>
+      <Switch>
+        <Route exact path="/">
+          <Layout>
+            <Boards />
+          </Layout>
+        </Route>
+        <Route path="/boards/:id">
+          <Layout>
+            <BoardDetails />
+          </Layout>
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+      </Switch>
+    </>
   );
 }
 
