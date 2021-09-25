@@ -1,20 +1,24 @@
 import { Heading, Box, Flex } from "@chakra-ui/layout";
-import React from "react";
+import React, { useEffect } from "react";
 import Board from "../components/Board";
+import { useDispatch, useSelector } from "react-redux";
+import { getBoards } from "../redux/boardSlice";
 
 export default function Boards() {
+  const { status, boards } = useSelector((state) => state.board);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBoards());
+  }, [dispatch]);
   return (
     <Box my="10">
       <Heading mb="6" textColor="gray.500" as="h2" size="lg">
         Your Boards
       </Heading>
+      {status === "loading" && <Box>Loading...</Box>}
       <Flex wrap="wrap" gridGap="8">
-        <Board />
-        <Board />
-        <Board />
-        <Board />
-        <Board />
-        <Board />
+        {status === "success" &&
+          boards.map((board) => <Board key={board._id} board={board} />)}
       </Flex>
     </Box>
   );
