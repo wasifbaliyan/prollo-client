@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Flex,
@@ -30,9 +30,16 @@ export default function Header() {
   const { email, name } = JSON.parse(localStorage.getItem("login"));
   const variant = useBreakpointValue({ base: "base", sm: "sm", md: "md" });
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [query, setQuery] = useState("");
 
   function getStarredBoards() {
     return boards.filter((board) => board.isStarred);
+  }
+
+  function queriedBoards() {
+    return boards.filter((board) =>
+      board.title.toLowerCase().includes(query.toLowerCase())
+    );
   }
 
   return (
@@ -48,7 +55,7 @@ export default function Header() {
         <Flex justify="space-between">
           <Flex alignItems="center" justify="flex-start">
             <Link to="/">
-              <Image mr="2" src="/Prollo.png" alt="Prollo Logo" h="14" py="4" />
+              <Image src="/Prollo.png" alt="Prollo Logo" h="14" py="4" />
             </Link>
             <Link hidden={variant === "sm" || variant === "base"} to="/">
               <Button mx="2" colorScheme="blue">
@@ -79,12 +86,47 @@ export default function Header() {
             </Button>
           </Flex>
           <Flex alignItems="center">
-            <InputGroup hidden={variant === "sm" || variant === "base"}>
+            <InputGroup
+              hidden={variant === "sm" || variant === "base"}
+              position="relative"
+            >
               <InputLeftElement
                 pointerEvents="none"
                 children={<SearchIcon color="gray.400" />}
               />
-              <Input w="sm" bg="gray.50" type="text" placeholder="Search" />
+              <Input
+                w="sm"
+                bg="gray.50"
+                type="text"
+                placeholder="Search Boards"
+                onChange={(e) => setQuery(e.target.value)}
+                value={query}
+              />
+              <Box
+                position="absolute"
+                bg="gray.50"
+                top="10"
+                width="98.5%"
+                borderRadius="md"
+                overflow="hidden"
+              >
+                {query.length !== 0 &&
+                  queriedBoards().map((board) => (
+                    <Link
+                      to={`/boards/${board._id}`}
+                      key={board._id}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Box
+                        _hover={{ bg: "#eee" }}
+                        onClick={() => setQuery("")}
+                        p="3"
+                      >
+                        {board.title}
+                      </Box>
+                    </Link>
+                  ))}
+              </Box>
             </InputGroup>
             <Menu>
               <MenuButton mx="2" as={Button} colorScheme="">
