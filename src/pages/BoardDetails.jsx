@@ -30,10 +30,14 @@ export default function BoardDetails() {
 
   return (
     <>
-      {status === "loading" && <Box>Loading...</Box>}
+      {status === "loading" && (
+        <Box px="5" color="gray.800">
+          Loading...
+        </Box>
+      )}
       {status === "success" && (
-        <Box>
-          <Flex my="3">
+        <Box width="100%" height="100%" overflowX="scroll" px="5">
+          <Flex>
             {!showBoardNameEdit && (
               <Button
                 onClick={() => setShowBoardNameEdit(true)}
@@ -90,7 +94,7 @@ export default function BoardDetails() {
               </IconButton>
             )}
           </Flex>
-          <Box maxWidth="full" overflowX="scroll" h="80vh">
+          <Box>
             <Lists />
           </Box>
         </Box>

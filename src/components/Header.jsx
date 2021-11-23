@@ -37,7 +37,14 @@ export default function Header() {
 
   return (
     <>
-      <Box bg={boardDetails.backgroundColor || "blue.500"} px="10">
+      <Box
+        flex="0 1 auto"
+        position="fixed"
+        zIndex="999"
+        width="100%"
+        bg={boardDetails.backgroundColor || "blue.500"}
+        px="10"
+      >
         <Flex justify="space-between">
           <Flex alignItems="center" justify="flex-start">
             <Link to="/">

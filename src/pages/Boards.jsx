@@ -15,7 +15,7 @@ export default function Boards() {
     dispatch(resetBoardDetails());
   }, [dispatch]);
   return (
-    <Box my="10">
+    <Box px="5">
       <Heading mb="6" textColor="gray.500" as="h2" size="lg">
         Your Boards
       </Heading>
