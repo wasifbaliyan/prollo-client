@@ -14,8 +14,11 @@ import {
   ModalFooter,
   Heading,
   Text,
+  Select,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
+import format from "date-fns/format";
+
 import { CloseIcon } from "@chakra-ui/icons";
 import { updateCard } from "../api";
 import { getBoards } from "../redux/boardSlice";
@@ -23,11 +26,22 @@ import { getBoards } from "../redux/boardSlice";
 export default function CardModal({ isOpen, onClose, card }) {
   const [showEditTitle, setShowEditTitle] = useState(false);
   const [showEditDesc, setShowEditDesc] = useState(false);
+  const [showEditPriority, setShowEditPriority] = useState(false);
+  const [showEditDate, setShowEditDate] = useState(false);
   const [title, setTitle] = useState(card.title);
+  const [priority, setPriority] = useState(card.priority);
+  const [dueDate, setDueDate] = useState(card.dueDate);
   const [description, setDescription] = useState(card.description || "");
   const dispatch = useDispatch();
+
   const handleUpdate = async () => {
-    const response = await updateCard({ id: card._id, title, description });
+    const response = await updateCard({
+      id: card._id,
+      title,
+      description,
+      priority,
+      dueDate,
+    });
     if (response) {
       dispatch(getBoards());
       onClose();
@@ -81,8 +95,94 @@ export default function CardModal({ isOpen, onClose, card }) {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
+          <Box display="flex" justifyContent="space-between">
+            {!showEditPriority && (
+              <Text
+                flex="1"
+                p="2"
+                borderRadius="sm"
+                w="sm"
+                _hover={{ cursor: "pointer", backgroundColor: "gray.100" }}
+                onClick={() => setShowEditPriority(true)}
+              >
+                {`Priority: ${card.priority}` || "Choose Priority"}
+              </Text>
+            )}
+            {showEditPriority && (
+              <Box flex="1">
+                <Select
+                  value={priority}
+                  onChange={(e) => setPriority(e.target.value)}
+                  placeholder="Select Priority"
+                  mb="4"
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="super">Super</option>
+                </Select>
+                <Button
+                  onClick={() => handleUpdate()}
+                  borderRadius="sm"
+                  colorScheme="blue"
+                  mr="2"
+                >
+                  Save
+                </Button>
+                <IconButton
+                  onClick={() => setShowEditPriority(false)}
+                  borderRadius="sm"
+                  icon={<CloseIcon fontSize="xs" />}
+                />
+              </Box>
+            )}
+            {!showEditDate && (
+              <Text
+                flex="1"
+                p="2"
+                borderRadius="sm"
+                w="sm"
+                _hover={{ cursor: "pointer", backgroundColor: "gray.100" }}
+                onClick={() => setShowEditDate(true)}
+              >
+                {(card.dueDate &&
+                  `Due On : ${format(
+                    new Date(card.dueDate),
+                    "MMM dd  HH:mm"
+                  )}`) ||
+                  "Due On"}
+              </Text>
+            )}
+            {showEditDate && (
+              <Box flex="1">
+                <Input
+                  type="datetime-local"
+                  onChange={(e) => setDueDate(e.target.value)}
+                  value={dueDate}
+                  placeholder="Complete By"
+                  bg="white"
+                  mb="4"
+                />
+                <Button
+                  onClick={() => handleUpdate()}
+                  borderRadius="sm"
+                  colorScheme="blue"
+                  mr="2"
+                >
+                  Save
+                </Button>
+                <IconButton
+                  onClick={() => setShowEditDate(false)}
+                  borderRadius="sm"
+                  icon={<CloseIcon fontSize="xs" />}
+                />
+              </Box>
+            )}
+          </Box>
+
           {!showEditDesc && (
             <Text
+              mt="4"
               p="2"
               borderRadius="sm"
               w="sm"
@@ -93,7 +193,7 @@ export default function CardModal({ isOpen, onClose, card }) {
             </Text>
           )}
           {showEditDesc && (
-            <Box>
+            <Box mt="4">
               <Textarea
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
