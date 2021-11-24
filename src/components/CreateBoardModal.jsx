@@ -11,10 +11,46 @@ import {
   Input,
   FormControl,
   FormLabel,
+  useRadioGroup,
+  HStack,
+  useRadio,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { createBoard } from "../api";
 import { getBoards } from "../redux/boardSlice";
+
+function RadioCard(props) {
+  const { getInputProps, getCheckboxProps } = useRadio(props);
+
+  const input = getInputProps();
+  const checkbox = getCheckboxProps();
+
+  return (
+    <Box as="label">
+      <input {...input} />
+      <Box
+        {...checkbox}
+        cursor="pointer"
+        bg={props.value}
+        borderWidth="3px"
+        borderRadius="md"
+        boxShadow="md"
+        _checked={{
+          borderColor: "black",
+        }}
+        _focus={{
+          boxShadow: "outline",
+        }}
+        px={5}
+        py={3}
+      >
+        {props.children}
+      </Box>
+    </Box>
+  );
+}
 
 export default function CreateBoardModal({ isOpen, onClose }) {
   const [boardData, setBoardData] = useState({});
@@ -27,6 +63,27 @@ export default function CreateBoardModal({ isOpen, onClose }) {
       onClose();
     }
   };
+
+  const options = [
+    "#9B2C2C",
+    "#276749",
+    "#086F83",
+    "#B83280",
+    "#805AD5",
+    "#3182CE",
+    "#DD6B20",
+  ];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "backgroundColor",
+    defaultValue: "#C53030",
+    onChange: (value) =>
+      setBoardData((prev) => ({
+        ...prev,
+        backgroundColor: value,
+      })),
+  });
+  const group = getRootProps();
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -41,7 +98,7 @@ export default function CreateBoardModal({ isOpen, onClose }) {
           <ModalBody>
             <form onSubmit={handleSubmit}>
               <FormControl id="title" my="3">
-                <FormLabel>Board title</FormLabel>
+                <FormLabel>Board Title:</FormLabel>
                 <Input
                   onChange={(e) =>
                     setBoardData((prev) => ({
@@ -54,7 +111,7 @@ export default function CreateBoardModal({ isOpen, onClose }) {
                   bg="white"
                 />
               </FormControl>
-              <FormControl id="backgroundColor" mt="6">
+              {/* <FormControl id="backgroundColor" mt="6">
                 <FormLabel>Background color</FormLabel>
                 <Input
                   onChange={(e) =>
@@ -67,13 +124,25 @@ export default function CreateBoardModal({ isOpen, onClose }) {
                   type="color"
                   bg="white"
                 />
-              </FormControl>
+              </FormControl> */}
+              <Text py="1">Background Color:</Text>
+              <HStack {...group}>
+                {options.map((value) => {
+                  const radio = getRadioProps({ value });
+                  return (
+                    <RadioCard value={value} key={value} {...radio}>
+                      {/* {value} */}
+                    </RadioCard>
+                  );
+                })}
+              </HStack>
               <Button
                 type="submit"
                 borderRadius="sm"
                 colorScheme="blue"
                 mt="6"
                 mb="3"
+                disabled={!boardData.title || boardData.title.length === 0}
               >
                 Create board
               </Button>

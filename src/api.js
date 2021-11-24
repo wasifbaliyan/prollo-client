@@ -39,3 +39,23 @@ export const updateCard = async (data) => {
   }
   return response.data;
 };
+
+export const deleteList = async (data) => {
+  const response = await axios.delete(
+    `/api/lists/${data.id}?boardId=${data.boardId}`
+  );
+  if (!response.statusText === "OK") {
+    throw new Error("Something went wrong!");
+  }
+  return response.data;
+};
+
+export const deleteCard = async (data) => {
+  const response = await axios.delete(
+    `/api/cards/${data.id}?boardId=${data.boardId}&listId=${data.listId}`
+  );
+  if (!response.statusText === "OK") {
+    throw new Error("Something went wrong!");
+  }
+  return response.data;
+};

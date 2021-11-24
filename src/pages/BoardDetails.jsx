@@ -30,10 +30,14 @@ export default function BoardDetails() {
 
   return (
     <>
-      {status === "loading" && <Box>Loading...</Box>}
+      {status === "loading" && (
+        <Box px="5" color="gray.800">
+          Loading...
+        </Box>
+      )}
       {status === "success" && (
-        <Box>
-          <Flex my="3">
+        <Box width="100%" height="100%" overflowX="scroll" px="5">
+          <Flex alignItems="center">
             {!showBoardNameEdit && (
               <Button
                 onClick={() => setShowBoardNameEdit(true)}
@@ -74,7 +78,7 @@ export default function BoardDetails() {
               <IconButton
                 onClick={() => handleUpdate({ isStarred: false })}
                 m={1}
-                bg="transparent"
+                bg="gray.50"
                 borderRadius="sm"
               >
                 <Icon as={FaStar} />
@@ -83,14 +87,14 @@ export default function BoardDetails() {
               <IconButton
                 onClick={() => handleUpdate({ isStarred: true })}
                 m={1}
-                bg="transparent"
+                bg="gray.50"
                 borderRadius="sm"
               >
                 <Icon as={FaRegStar} />
               </IconButton>
             )}
           </Flex>
-          <Box maxWidth="full" overflowX="scroll" h="80vh">
+          <Box>
             <Lists />
           </Box>
         </Box>
