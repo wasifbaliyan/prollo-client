@@ -1,6 +1,7 @@
 import { Flex, Box } from "@chakra-ui/react";
 import React from "react";
 import { useSelector } from "react-redux";
+import { DragDropContext } from "react-beautiful-dnd";
 
 import CreateList from "./CreateList";
 import List from "./List";
@@ -10,8 +11,14 @@ export default function Lists() {
   return (
     <Flex gridGap="8" mb="10">
       {status === "loading" && <Box>Loading...</Box>}
-      {status === "success" &&
-        lists.map((list) => <List key={list._id} list={list} />)}
+
+      {status === "success" && (
+        <DragDropContext>
+          {lists.map((list) => (
+            <List key={list._id} list={list} />
+          ))}
+        </DragDropContext>
+      )}
       <CreateList />
     </Flex>
   );

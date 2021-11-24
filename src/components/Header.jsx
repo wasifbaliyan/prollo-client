@@ -50,7 +50,7 @@ export default function Header() {
         zIndex="999"
         width="100%"
         bg={boardDetails.backgroundColor || "blue.500"}
-        px="10"
+        px="5"
       >
         <Flex justify="space-between">
           <Flex alignItems="center" justify="flex-start">
