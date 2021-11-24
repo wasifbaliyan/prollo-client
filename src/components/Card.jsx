@@ -4,7 +4,7 @@ import format from "date-fns/format";
 import React from "react";
 import CardModal from "./CardModal";
 
-export default function Card({ card }) {
+export default function Card({ card, index }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   function getPriorityScheme(priority) {
@@ -21,7 +21,7 @@ export default function Card({ card }) {
 
   return (
     <>
-      <Draggable key={card._id} draggableId={card._id}>
+      <Draggable key={card._id} draggableId={card._id} index={index}>
         {(provided, snapshot) => (
           <Box
             ref={provided.innerRef}
