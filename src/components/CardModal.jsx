@@ -20,8 +20,9 @@ import { useDispatch } from "react-redux";
 import format from "date-fns/format";
 
 import { CloseIcon } from "@chakra-ui/icons";
-import { updateCard } from "../api";
+import { deleteCard, updateCard } from "../api";
 import { getBoards } from "../redux/boardSlice";
+import { getList } from "../redux/listSlice";
 
 export default function CardModal({ isOpen, onClose, card }) {
   const [showEditTitle, setShowEditTitle] = useState(false);
@@ -47,6 +48,25 @@ export default function CardModal({ isOpen, onClose, card }) {
       onClose();
     }
   };
+
+  async function handleDeleteCard() {
+    try {
+      const confirmation = window.confirm("Are you sure to delete this card?");
+      if (!confirmation) return;
+      const response = await deleteCard({
+        boardId: card.boardId,
+        listId: card.listId,
+        id: card._id,
+      });
+
+      if (response) {
+        dispatch(getList({ listId: card.listId, boardId: card.boardId }));
+        onClose();
+      }
+    } catch (error) {
+      console.log("Something went wrong.");
+    }
+  }
 
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
@@ -218,7 +238,14 @@ export default function CardModal({ isOpen, onClose, card }) {
           )}
         </ModalBody>
         <ModalFooter>
-          <Text fontSize="xs">*Edit title or desc by clicking on them.</Text>
+          <Box>
+            <Text textAlign="left" fontSize="xs">
+              *Edit title or desc by clicking on them.
+            </Text>
+          </Box>
+          <Button size="sm" colorScheme="red" onClick={handleDeleteCard}>
+            Delete Card
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

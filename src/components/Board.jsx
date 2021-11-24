@@ -11,7 +11,7 @@ import { getBoards } from "../redux/boardSlice";
 export default function Board({ board }) {
   const dispatch = useDispatch();
   const handleUpdate = async (e, star) => {
-    e.stopPropagation();
+    e.preventDefault();
     const response = await updateBoard({ id: board._id, isStarred: star });
     if (response) {
       dispatch(getBoards());
@@ -41,7 +41,7 @@ export default function Board({ board }) {
             bg="transparent"
             borderRadius="sm"
           >
-            <Icon as={FaStar} />
+            <Icon as={FaStar} color="gray.700" />
           </IconButton>
         ) : (
           <IconButton
@@ -53,7 +53,7 @@ export default function Board({ board }) {
             bg="transparent"
             borderRadius="sm"
           >
-            <Icon as={FaRegStar} />
+            <Icon as={FaRegStar} color="gray.700" />
           </IconButton>
         )}
       </Box>

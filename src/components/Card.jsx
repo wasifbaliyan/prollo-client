@@ -18,6 +18,7 @@ export default function Card({ card }) {
       return "green";
     }
   }
+
   return (
     <>
       <Draggable key={card._id} draggableId={card._id}>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { createCard } from "../api";
-import { getLists } from "../redux/listSlice";
+import { getList } from "../redux/listSlice";
 export default function CreateCard({ list }) {
   const [showAddButton, setShowAddButton] = useState(true);
   const [title, setTitle] = useState("");
@@ -13,7 +13,7 @@ export default function CreateCard({ list }) {
   const handleClick = async () => {
     const response = await createCard({ title, boardId: id, listId: list._id });
     if (response) {
-      dispatch(getLists(id));
+      dispatch(getList({ boardId: id, listId: list._id }));
       setShowAddButton(true);
     }
   };

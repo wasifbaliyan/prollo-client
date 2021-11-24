@@ -37,7 +37,7 @@ export default function BoardDetails() {
       )}
       {status === "success" && (
         <Box width="100%" height="100%" overflowX="scroll" px="5">
-          <Flex>
+          <Flex alignItems="center">
             {!showBoardNameEdit && (
               <Button
                 onClick={() => setShowBoardNameEdit(true)}
@@ -78,7 +78,7 @@ export default function BoardDetails() {
               <IconButton
                 onClick={() => handleUpdate({ isStarred: false })}
                 m={1}
-                bg="transparent"
+                bg="gray.50"
                 borderRadius="sm"
               >
                 <Icon as={FaStar} />
@@ -87,7 +87,7 @@ export default function BoardDetails() {
               <IconButton
                 onClick={() => handleUpdate({ isStarred: true })}
                 m={1}
-                bg="transparent"
+                bg="gray.50"
                 borderRadius="sm"
               >
                 <Icon as={FaRegStar} />
