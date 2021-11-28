@@ -63,7 +63,7 @@ export default function BoardDetails() {
                   borderRadius="sm"
                   colorScheme="blue"
                   mr="2"
-                  disabled={title.trimStart().length === 0}
+                  disabled={title && title.trimStart().length === 0}
                 >
                   Save
                 </Button>
