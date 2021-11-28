@@ -21,7 +21,11 @@ export default function Card({ card, index }) {
 
   return (
     <>
-      <Draggable key={card._id} draggableId={card._id} index={index}>
+      <Draggable
+        key={card._id}
+        draggableId={`${card._id}-${card.listId}`}
+        index={index}
+      >
         {(provided, snapshot) => (
           <Box
             ref={provided.innerRef}

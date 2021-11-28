@@ -102,6 +102,7 @@ export default function CardModal({ isOpen, onClose, card }) {
                 borderRadius="sm"
                 colorScheme="blue"
                 mr="2"
+                disabled={title.trimStart().length === 0}
               >
                 Save
               </Button>

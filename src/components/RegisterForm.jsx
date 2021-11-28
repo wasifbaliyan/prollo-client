@@ -15,7 +15,11 @@ import { useHistory } from "react-router-dom";
 import { registerUser } from "../redux/authSlice";
 
 export default function RegisterForm({ setRegistered }) {
-  const [registerData, setRegisterData] = useState({});
+  const [registerData, setRegisterData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
@@ -93,7 +97,17 @@ export default function RegisterForm({ setRegistered }) {
             </Button>
           </InputRightElement>
         </InputGroup>
-        <Button type="submit" colorScheme="green" width="full" my="3">
+        <Button
+          disabled={
+            registerData.email.trimStart().length === 0 ||
+            registerData.password.trimStart().length === 0 ||
+            registerData.name.trimStart().length === 0
+          }
+          type="submit"
+          colorScheme="green"
+          width="full"
+          my="3"
+        >
           {status === "loading" ? "Registering..." : "Register"}
         </Button>
       </form>

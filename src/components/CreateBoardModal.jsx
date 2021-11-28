@@ -100,6 +100,7 @@ export default function CreateBoardModal({ isOpen, onClose }) {
               <FormControl id="title" my="3">
                 <FormLabel>Board Title:</FormLabel>
                 <Input
+                  placeholder="Enter board title"
                   onChange={(e) =>
                     setBoardData((prev) => ({
                       ...prev,
@@ -142,7 +143,9 @@ export default function CreateBoardModal({ isOpen, onClose }) {
                 colorScheme="blue"
                 mt="6"
                 mb="3"
-                disabled={!boardData.title || boardData.title.length === 0}
+                disabled={
+                  !boardData.title || boardData.title.trimStart().length === 0
+                }
               >
                 Create board
               </Button>

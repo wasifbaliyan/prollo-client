@@ -40,7 +40,7 @@ export default function CreateCard({ list }) {
           />
           <Button
             onClick={handleClick}
-            disabled={title.length === 0}
+            disabled={title.trimStart().length === 0}
             colorScheme="blue"
             borderRadius="sm"
             mr="2"
