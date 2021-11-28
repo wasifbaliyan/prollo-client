@@ -15,7 +15,7 @@ import { useHistory } from "react-router-dom";
 import { loginUser } from "../redux/authSlice";
 
 export default function LoginForm({ setRegistered }) {
-  const [loginData, setLoginData] = useState({});
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const dispatch = useDispatch();
@@ -83,6 +83,10 @@ export default function LoginForm({ setRegistered }) {
           </InputRightElement>
         </InputGroup>
         <Button
+          disabled={
+            loginData.email.trimStart().length === 0 ||
+            loginData.password.trimStart().length === 0
+          }
           as="button"
           type="submit"
           colorScheme="green"
