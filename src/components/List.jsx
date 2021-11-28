@@ -46,7 +46,7 @@ export default function List({ list }) {
   }
 
   return (
-    <Droppable droppableId={`${list._id}`}>
+    <Droppable droppableId={`${list._id}`} cusotmProp={"hello world"}>
       {(provided, snapshot) => (
         <Box
           {...provided.droppableProps}

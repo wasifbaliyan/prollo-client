@@ -59,3 +59,11 @@ export const deleteCard = async (data) => {
   }
   return response.data;
 };
+
+export const dndCard = async (data) => {
+  const response = await axios.post("/api/cards/dnd", data);
+  if (!response.statusText === "OK") {
+    throw new Error("Something went wrong!");
+  }
+  return response.data;
+};
