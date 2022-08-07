@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import authSlice from "./authSlice";
 import boardSlice from "./boardSlice";
 import cardSlice from "./cardSlice";
@@ -12,3 +13,5 @@ export const store = configureStore({
     card: cardSlice,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>
